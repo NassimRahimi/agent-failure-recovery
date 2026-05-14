@@ -1,0 +1,30 @@
+{
+  "agent_id": "agent.recovery-demo.v1",
+  "name": "Recovery Demo Agent",
+  "purpose": "Demonstrates controlled agent execution, failure detection, rollback, and validation.",
+  "owner": "Nassim Rahimi",
+  "risk_tier": "demo",
+  "reads": [
+    "00_05_e/data/shopping_notes.txt"
+  ],
+  "writes": [
+    "00_05_e/out/shopping_summary.json",
+    "00_05_e/logs/agent_events.jsonl",
+    "00_05_e/snapshot/",
+    "00_05_e/impact/",
+    "00_05_e/quarantine/",
+    "00_05_e/action_log.jsonl"
+  ],
+  "controls": [
+    "allowlisted file paths",
+    "structured output model",
+    "operation-level event logging",
+    "sensitive content scan",
+    "writer attribution by run_id and operation_id",
+    "known-good snapshot creation",
+    "impact assessment against baseline",
+    "quarantine before restore",
+    "action log with recovery evidence",
+    "post-recovery schema and safety validation"
+  ]
+}

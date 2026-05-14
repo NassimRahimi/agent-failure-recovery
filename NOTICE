@@ -1,0 +1,10 @@
+Agent Failure Recovery Demo
+Copyright (c) 2026 Nassim Rahimi
+
+This repository is an original public-safe demo of agent runtime failure recovery.
+It does not include LinkedIn Learning exercise files, course transcripts, videos,
+or copied source code.
+
+Third-party dependencies:
+- pydantic: MIT License
+- deepdiff: MIT License

@@ -1,0 +1,7 @@
+Shopping notes for the demo:
+- oats
+- milk
+- bananas
+- dish soap
+
+Only the approved shopping items should be included in the final customer-facing JSON output.

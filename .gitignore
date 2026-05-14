@@ -1,0 +1,28 @@
+# Environment
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime outputs
+**/logs/
+**/out/
+**/snapshot/
+**/quarantine/
+**/impact/
+**/action_log.jsonl
+**/*.before.*.json
+**/*.quarantine.*.json
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
