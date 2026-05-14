@@ -1,10 +1,9 @@
 # Agent Failure Recovery Demo
 
-A small, public-safe demo of runtime controls for agentic AI systems.
+A small demo of runtime controls for agentic AI systems.
 
 The repository shows how an agent workflow can detect unsafe output, attribute the failure, assess impact, quarantine bad state, roll back to a known-good snapshot, and validate recovery.
 
-This is an original educational demo. It does **not** include LinkedIn Learning exercise files, transcripts, videos, course assets, or copied source code.
 
 ## What this demo shows
 
