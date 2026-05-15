@@ -1,26 +1,24 @@
 # Agent Failure Recovery Demo
 
-A small demo of runtime controls for agentic AI systems.
+A small, runnable demo of runtime controls for agentic AI systems.
 
-The repository shows how an agent workflow can detect unsafe output, attribute the failure, assess impact, quarantine bad state, roll back to a known-good snapshot, and validate recovery.
+The repository shows how an agent workflow can detect unsafe output, attribute the failure back to the tool call that produced it, quarantine the bad state, roll back to a known-good snapshot, and validate that the restored state is actually safe.
 
-=======
 ## Why this matters for AI Governance
 
 When an agent produces unsafe output in production, governance asks four questions: *Was it caught? Who or what produced it? Can the damage be contained? Is the restored state actually safe?* This demo answers each one as a runnable step:
 
 - **Failure detection → scanner with attribution.** `scanner.py` checks output and event logs for leaked PII (email, payment-card last-four), secret-like tokens, and sensitive keywords. When it fires, it traces the finding back to the exact agent, tool call, `run_id`, and `operation_id` that produced it. Attribution is the prerequisite for accountability.
-- **Containment → quarantine + rollback to a known-good snapshot.** `rollback.py` moves the unsafe output into a quarantine area (not deleted — preserved for audit), then restores the latest known-good snapshot. The action log records what was quarantined, what was restored, and which findings triggered the action.
+- **Containment → quarantine + rollback to a known-good snapshot.** `rollback.py` moves the unsafe output into a quarantine area (preserved for audit, not deleted), then restores the latest known-good snapshot. The action log records what was quarantined, what was restored, and which findings triggered the action.
 - **Recovery validation → schema and safety re-check after rollback.** `validate.py` confirms the restored state passes the same scanner that detected the original failure, and that the schema is still valid. "We rolled back" is not the same as "we are safe again"; validation closes that gap.
 
 The repo is deterministic and requires no LLM API key, so the control pattern is the focus, not the model.
-
 
 ![Demo: unsafe output detected, scanned, quarantined, rolled back, validated](docs/demo.png)
 
 ## What this demo shows
 
-- Controlled agent execution with explicit input/output contracts
+- Controlled agent execution with explicit input and output contracts
 - Allow-listed file access for agent reads and writes
 - Structured event logging with `run_id` and `operation_id`
 - Writer attribution from unsafe output back to the tool call that produced it
@@ -57,7 +55,7 @@ The repo is deterministic and requires no LLM API key, so the control pattern is
     └── inventory/agent_inventory.json
 ```
 
-Runtime folders such as `logs/`, `out/`, `snapshot/`, `quarantine/`, and `impact/` are generated locally and excluded from Git.
+Runtime folders (`logs/`, `out/`, `snapshot/`, `quarantine/`, `impact/`) are generated locally and excluded from Git.
 
 ## Setup
 
@@ -75,7 +73,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-No API key is required. The demo uses a deterministic local agent simulation so it can run safely in CI.
+No API key is required. The demo uses a deterministic local agent simulation, so it runs safely in CI.
 
 ## Run the recovery workflow
 
@@ -115,7 +113,7 @@ python 00_05_e/rollback.py \
   --actionlog 00_05_e/action_log.jsonl
 ```
 
-`rollback.py` automatically includes `00_05_e/impact/scan_report.json` findings when that file exists. You can also pass it explicitly:
+`rollback.py` automatically includes `00_05_e/impact/scan_report.json` findings when that file exists. The path can also be passed explicitly:
 
 ```bash
 python 00_05_e/rollback.py \
@@ -138,8 +136,16 @@ python 00_05_e/validate.py \
 
 ## Expected result
 
-The unsafe run creates an output containing intentionally unsafe fields. The scanner detects them and attributes the writer. Rollback quarantines the bad file, restores the known-good snapshot, and validation confirms that the restored state is safe and still matches the expected schema.
+The unsafe run produces an output containing intentionally unsafe fields. The scanner detects them and attributes the writer. Rollback quarantines the bad file, restores the known-good snapshot, and validation confirms that the restored state is safe and still matches the expected schema.
 
 ## Production notes
 
-A real production implementation should replace the local file system with durable state, central policy enforcement, typed event schemas, approval workflows, model and prompt versioning, replay tests, access controls, and operational SLOs.
+A production implementation would replace the local file system with durable state, central policy enforcement, typed event schemas, approval workflows, model and prompt versioning, replay tests, access controls, and operational SLOs. The patterns shown here are the same; the substrates change.
+
+## Related work
+
+- [`agent-governance`](https://github.com/NassimRahimi/agent-governance) — inventory, runtime guardrails, audit logs, and a production-readiness gate for agentic AI systems.
+
+## License
+
+MIT. See `LICENSE` and `NOTICE`.
