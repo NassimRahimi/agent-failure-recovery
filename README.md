@@ -4,7 +4,6 @@ A small demo of runtime controls for agentic AI systems.
 
 The repository shows how an agent workflow can detect unsafe output, attribute the failure, assess impact, quarantine bad state, roll back to a known-good snapshot, and validate recovery.
 
-<<<<<<< HEAD
 =======
 ## Why this matters for AI Governance
 
@@ -18,7 +17,6 @@ The repo is deterministic and requires no LLM API key, so the control pattern is
 
 
 ![Demo: unsafe output detected, scanned, quarantined, rolled back, validated](docs/demo.png)
->>>>>>> 47bb161 (Update documentation)
 
 ## What this demo shows
 
