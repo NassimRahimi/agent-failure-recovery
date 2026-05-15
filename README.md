@@ -144,7 +144,7 @@ A production implementation would replace the local file system with durable sta
 
 ## Related work
 
-- [`agent-governance`](https://github.com/NassimRahimi/agent-governance) — inventory, runtime guardrails, audit logs, and a production-readiness gate for agentic AI systems.
+- [`agent-governance`](https://github.com/NassimRahimi/agent-governance): inventory, runtime guardrails, audit logs, and a production-readiness gate for agentic AI systems.
 
 ## License
 
