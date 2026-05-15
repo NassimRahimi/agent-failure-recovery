@@ -4,6 +4,21 @@ A small demo of runtime controls for agentic AI systems.
 
 The repository shows how an agent workflow can detect unsafe output, attribute the failure, assess impact, quarantine bad state, roll back to a known-good snapshot, and validate recovery.
 
+<<<<<<< HEAD
+=======
+## Why this matters for AI Governance
+
+When an agent produces unsafe output in production, governance asks four questions: *Was it caught? Who or what produced it? Can the damage be contained? Is the restored state actually safe?* This demo answers each one as a runnable step:
+
+- **Failure detection → scanner with attribution.** `scanner.py` checks output and event logs for leaked PII (email, payment-card last-four), secret-like tokens, and sensitive keywords. When it fires, it traces the finding back to the exact agent, tool call, `run_id`, and `operation_id` that produced it. Attribution is the prerequisite for accountability.
+- **Containment → quarantine + rollback to a known-good snapshot.** `rollback.py` moves the unsafe output into a quarantine area (not deleted — preserved for audit), then restores the latest known-good snapshot. The action log records what was quarantined, what was restored, and which findings triggered the action.
+- **Recovery validation → schema and safety re-check after rollback.** `validate.py` confirms the restored state passes the same scanner that detected the original failure, and that the schema is still valid. "We rolled back" is not the same as "we are safe again"; validation closes that gap.
+
+The repo is deterministic and requires no LLM API key, so the control pattern is the focus, not the model.
+
+
+![Demo: unsafe output detected, scanned, quarantined, rolled back, validated](docs/demo.png)
+>>>>>>> 47bb161 (Update documentation)
 
 ## What this demo shows
 
